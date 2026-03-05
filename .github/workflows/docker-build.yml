@@ -73,15 +73,14 @@ jobs:
           labels: ${{ steps.meta-nginx.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
+      - name: Lowercase repository name for testing
+        run: echo "REPO_LC=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+        
       - name: Test the built images
         env:
-          # GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REPOSITORY: ${{ github.REPO_LC }}
           GITHUB_SHA: ${{ github.sha }}
         run: |
-          REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          echo "REPO_LC=$REPO_LC" >> $GITHUB_ENV
-
           docker compose -f docker-compose.test.yml up -d
           sleep 30
           curl -f http://localhost/health || exit 1
