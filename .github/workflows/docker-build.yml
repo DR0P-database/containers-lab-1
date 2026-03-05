@@ -83,8 +83,8 @@ jobs:
 
       - name: Test the built images
         env:
-          GITHUB_REPOSITORY: ${{ env.REPO_LC }}
-          GITHUB_SHA: ${{ env.GITHUB_SHA_SHORT }}
+          # GITHUB_REPOSITORY: ${{ env.REPO_LC }}
+          # GITHUB_SHA: ${{ env.GITHUB_SHA_SHORT }}
         run: |
           docker compose -f docker-compose.test.yml up -d
           sleep 30
