@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   postgres:
-    name: lab1-test-postgres
     image: postgres:15-alpine
     environment:
       POSTGRES_PASSWORD: secret
@@ -9,7 +8,6 @@ services:
     networks:
       - test-network
   app:
-    name: lab1-test-app
     image: ghcr.io/${REPO_LC}/app:sha-${GITHUB_SHA_SHORT}
     environment:
       DB_HOST: postgres
@@ -20,7 +18,6 @@ services:
     networks:
       - test-network
   nginx:
-    name: lab1-test-nginx
     image: ghcr.io/${REPO_LC}/nginx:sha-${GITHUB_SHA_SHORT}
     ports:
       - "80:80"
