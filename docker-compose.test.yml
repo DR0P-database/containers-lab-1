@@ -5,6 +5,11 @@ services:
     environment:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: myapp_test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - test-network
   app:
@@ -14,7 +19,8 @@ services:
       DB_PASSWORD: secret
       DB_NAME: myapp_test
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - test-network
   nginx:
@@ -22,8 +28,8 @@ services:
     ports:
       - "80:80"
     depends_on:
-    app:
-      condition: service_healthy
+      app:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/app/health"]
       interval: 5s
