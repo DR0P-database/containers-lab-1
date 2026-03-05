@@ -82,7 +82,7 @@ jobs:
           echo "GITHUB_SHA_SHORT=$SHORT_SHA" >> $GITHUB_ENV
 
       - name: Test the built images
-        env:
+        # env:
           # GITHUB_REPOSITORY: ${{ env.REPO_LC }}
           # GITHUB_SHA: ${{ env.GITHUB_SHA_SHORT }}
         run: |
