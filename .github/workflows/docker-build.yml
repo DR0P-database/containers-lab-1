@@ -73,13 +73,18 @@ jobs:
           labels: ${{ steps.meta-nginx.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
       - name: Lowercase repository name for testing
         run: echo "REPO_LC=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+      - name: Export SHA for compose
+        run: |
+          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          echo "GITHUB_SHA_SHORT=$SHORT_SHA" >> $GITHUB_ENV
 
       - name: Test the built images
         env:
           GITHUB_REPOSITORY: ${{ env.REPO_LC }}
-          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_SHA: ${{ env.GITHUB_SHA_SHORT }}
         run: |
           docker compose -f docker-compose.test.yml up -d
           sleep 30
