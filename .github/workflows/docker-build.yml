@@ -76,10 +76,12 @@ jobs:
       
       - name: Test the built images
         env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          # GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_SHA: ${{ github.sha }}
         run: |
-          echo "${GITHUB_REPOSITORY,,}" >> $GITHUB_REPOSITORY
+          REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "REPO_LC=$REPO_LC" >> $GITHUB_ENV
+
           docker compose -f docker-compose.test.yml up -d
           sleep 30
           curl -f http://localhost/health || exit 1
