@@ -1,0 +1,5 @@
+2026/04/24 20:25:10 Error creating table:dial tcp [::1]:5432: connect: connection refused
+
+# pgo-app-deployment
+2026/04/24 20:49:30 Error creating table:dial tcp: lookup postgres-service on 10.96.0.10:53: no such host
+2026/04/24 20:49:29 Error creating table:dial tcp: lookup postgres-service on 10.96.0.10:53: no such host
