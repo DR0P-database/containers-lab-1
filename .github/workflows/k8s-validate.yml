@@ -38,3 +38,6 @@ jobs:
                 level: warning
               indentation:
                 spaces: 2
+                indent-sequences: consistent
+              document-start: disable
+              comments: disable

@@ -6,59 +6,59 @@ metadata:
     app: go-app
     lab: lab2
 spec:
-  replicas: 2 
+  replicas: 2
   selector:
     matchLabels:
-      app: go-app 
+      app: go-app
   # Стратегия обновления
   strategy:
-    type: RollingUpdate 
+    type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1 
-      maxUnavailable: 0 
+      maxSurge: 1
+      maxUnavailable: 0
   # Шаблон пода
   template:
     metadata:
       labels:
-        app: go-app 
+        app: go-app
     spec:
       # Использование секрета для доступа к GHCR
       imagePullSecrets:
         - name: ghcr-secret
       containers:
-        - name: go-app 
+        - name: go-app
           # Замените ВАШ_ЛОГИН на ваш реальный логин GitHub [cite: 196, 197]
           image: ghcr.io/dr0p-database/containers-lab-1/app:latest
           ports:
-            - containerPort: 8080 
+            - containerPort: 8080
           env:
             - name: DB_HOST
-              value: "postgres-service" 
+              value: "postgres-service"
             - name: DB_PORT
               value: "5432"
             - name: DB_USER
-              value: "postgres" 
+              value: "postgres"
             - name: DB_PASSWORD
-              value: "secret" 
+              value: "secret"
             - name: DB_NAME
-              value: "myapp" 
+              value: "myapp"
           resources:
             requests:
-              memory: "64Mi" 
-              cpu: "250m" 
+              memory: "64Mi"
+              cpu: "250m"
             limits:
-              memory: "128Mi" 
-              cpu: "500m" 
+              memory: "128Mi"
+              cpu: "500m"
           # Проверки готовности и жизнеспособности
-          readinessProbe: 
+          readinessProbe:
             httpGet:
-              path: /api/health 
-              port: 8080 
-            initialDelaySeconds: 5 
-            periodSeconds: 10 
-          livenessProbe: 
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
             httpGet:
-              path: /api/health 
-              port: 8080 
-            initialDelaySeconds: 15 
-            periodSeconds: 20 
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
