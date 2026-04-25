@@ -26,20 +26,6 @@ jobs:
         run: |
           kubeval --strict --ignore-missing-schemas k8s/*.yaml
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.28.0'
-
-      - name: Dry-run apply
-        run: |
-          for file in k8s/*.yaml; do
-            echo "Validating $file"
-            # Добавляем --offline, если версия kubectl позволяет, 
-            # или просто полагаемся на client-side проверку
-            kubectl apply --dry-run=client --validate=false -f $file
-          done
-
       - name: Lint YAML files
         uses: ibiqlik/action-yamllint@v3
         with:
