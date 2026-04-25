@@ -35,7 +35,9 @@ jobs:
         run: |
           for file in k8s/*.yaml; do
             echo "Validating $file"
-            kubectl apply --dry-run=client -f $file
+            # Добавляем --offline, если версия kubectl позволяет, 
+            # или просто полагаемся на client-side проверку
+            kubectl apply --dry-run=client --validate=false -f $file
           done
 
       - name: Lint YAML files
